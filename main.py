@@ -6,18 +6,12 @@ import requests
 from profile_plus import ProfilePlus, Sort
 
 
-def fib(n):
-    """Inefficient, recursive fibonacci sequence."""
-    if n == 1 or n == 2:
-        return 1
-    return fib(n-1) + fib(n-2)
-
-
 def main():
-    # The old way, directly from the docs
+    # The normal way, directly from the docs
+    # Note that it uses an io stream which I'm not doing below.
     pr = cProfile.Profile()
     pr.enable()
-    requests.get("https://www.python.org")
+    requests.get("https://www.python.org")  # do something interesting
     pr.disable()
     s = io.StringIO()
     sortby = 'cumulative'
@@ -25,9 +19,9 @@ def main():
     ps.print_stats()
     print(s.getvalue())
 
-    # Proposed way (using pure-Python prototype)
+    # Proposed way (using the pure-Python prototype)
     with ProfilePlus() as pr:
-        requests.get("https://www.python.org")
+        requests.get("https://www.python.org")  # do something interesting
     pr.print_stats(sort=Sort.cumulative)
 
 
